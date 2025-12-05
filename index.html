@@ -1,0 +1,874 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Ricas Fragancias</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link href="https://fonts.googleapis.com/css2?family=Amiri&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Amiri', serif;
+}
+
+body {
+    background: #000;
+    color: white;
+}
+
+/* ========== NAV ========== */
+nav {
+    width: 100%;
+    background: linear-gradient(90deg, #000, #0b0b0b, #000);
+    padding: 18px 60px;
+    position: fixed;
+    top: 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid rgba(212,175,55,0.4);
+    z-index: 1000;
+    backdrop-filter: blur(6px);
+}
+
+.logo {
+    font-size: 30px;
+    font-weight: bold;
+    color: #d4af37;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    display: flex;
+    align-items: center;
+    gap: 10px; /* espacio entre el logo y el texto */
+    transition: 0.3s; /* suaviza el cambio de color */
+}
+
+.logo-img {
+    width: 40px;  
+    height: 40px; 
+    object-fit: contain; 
+    transition: 0.3s; /* suaviza el efecto hover */
+}
+
+.logo:hover {
+    color: #ffd700; /* texto brillante dorado al pasar el mouse */
+}
+
+.logo:hover .logo-img {
+    filter: drop-shadow(0 0 8px #ffd700); /* resalta el logo con brillo dorado */
+    transform: scale(1.1); /* agranda un poquito el logo */
+}
+
+
+
+nav ul {
+    list-style: none;
+    display: flex;
+    gap: 35px;
+}
+
+nav a, nav button {
+    color: white;
+    text-decoration: none;
+    font-size: 17px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    position: relative;
+    padding-bottom: 5px;
+}
+
+nav a::after, nav button::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 0%;
+    height: 2px;
+    background: #d4af37;
+    transition: 0.3s;
+}
+
+nav a:hover::after, nav button:hover::after {
+    width: 100%;
+}
+
+
+.menu-btn {
+    display: none;
+    font-size: 28px;
+    color: white;
+    cursor: pointer;
+}
+
+@media (max-width: 768px) {
+    nav ul {
+        position: absolute;
+        top: 70px;
+        left: 0;
+        width: 100%;
+        background: #111;
+        flex-direction: column;
+        display: none;
+        padding: 15px 0;
+        text-align: center;
+    }
+    nav ul.active {
+        display: flex;
+    }
+    .menu-btn {
+        display: block;
+    }
+}
+
+/* ========== HERO ========== */
+.hero {
+    height: 90vh;
+    margin-bottom: 80px;
+    background-image: url("img/parafondo.jpg");
+    background-size: cover;
+    background-position: center;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.hero::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: rgba(0,0,0,0.7);
+    box-shadow: inset 0 0 180px black;
+}
+
+.contenido-header {
+    z-index: 2;
+    text-align: center;
+    color: #d4af37;
+    animation: fadeIn 2s ease;
+}
+
+.contenido-header h1 {
+    font-size: 60px;
+}
+
+.contenido-header p {
+    margin-top: 10px;
+    color: white;
+    font-size: 22px;
+}
+
+@keyframes fadeIn {
+    from {opacity: 0; transform: translateY(40px);}
+    to {opacity: 1; transform: translateY(0);}
+}
+
+/* ========== FILTROS ========== */
+.filtros {
+    margin: 120px 40px 30px;
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.filtros select, .filtros input {
+    padding: 10px 15px;
+    border-radius: 8px;
+    border: 2px solid #d4af37;
+    background: #111;
+    color: white;
+}
+
+/* ========== PRODUCTOS ========== */
+.productos {
+    padding: 100px 40px 120px;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px,1fr));
+    gap: 25px;
+}
+
+.card {
+    position: relative; /* necesario para la etiqueta */
+    background: #111;
+    padding: 20px;
+    border-radius: 15px;
+    border: 2px solid #d4af37;
+    text-align: center;
+    transition: 0.3s;
+}
+
+.card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 0 25px #d4af37;
+}
+
+/* Etiqueta de oferta */
+.oferta {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    background: #d32f2f;
+    color: white;
+    font-weight: bold;
+    padding: 5px 10px;
+    border-radius: 8px;
+    font-size: 14px;
+    z-index: 2;
+}
+
+/* Precio antiguo tachado */
+.precio-antiguo {
+    text-decoration: line-through;
+    color: #aaa;
+    margin-right: 8px;
+}
+
+/* Precio nuevo destacado */
+.precio-nuevo {
+    color: #d4af37;
+    font-weight: bold;
+}
+
+
+/* Imagenes de productos tamaño uniforme */
+.card img {
+    width: 100%;
+    height: 300px; /* altura fija */
+    object-fit: cover; /* que no se deforme */
+    border-radius: 10px;
+}
+
+/* Redes sociales con iconos */
+.redes a {
+    margin: 0 10px;
+    text-decoration: none;
+    font-size: 20px;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+}
+
+
+
+.btn-add {
+    background: linear-gradient(135deg, #d4af37, #b8962e);
+    border: none;
+    padding: 14px;
+    width: 100%;
+    border-radius: 12px;
+    margin-top: 15px;
+    cursor: pointer;
+    font-size: 17px;
+    font-weight: bold;
+    letter-spacing: 1px;
+    color: black;
+    transition: 0.3s;
+}
+
+.btn-add:hover {
+    background: linear-gradient(135deg, #b8962e, #d4af37);
+    transform: scale(1.05);
+}
+
+/* ========== CARRITO ========== */
+/* ========== CARRITO MEJORADO ========== */
+#carrito {
+    position: fixed;
+    top: 90px;
+    right: 20px;
+    background: #111;
+    padding: 20px;
+    border: 2px solid #d4af37;
+    width: 300px;
+    max-height: 70vh;
+    border-radius: 12px;
+    display: none;
+    z-index: 2000;
+    overflow-y: auto;
+    box-shadow: 0 0 20px #d4af37;
+}
+
+#carrito h3 {
+    text-align: center;
+    margin-bottom: 15px;
+    color: #d4af37;
+}
+
+#lista-carrito {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+#lista-carrito li {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+    padding: 8px;
+    background: #1a1a1a;
+    border-radius: 8px;
+    font-size: 16px;
+    color: white;
+}
+
+#total {
+    margin-top: 10px;
+    font-weight: bold;
+    font-size: 18px;
+    color: #d4af37;
+    text-align: center;
+}
+
+#btnComprar {
+    display: block;
+    margin: 15px auto 0;
+    background: linear-gradient(135deg, #d4af37, #b8962e);
+    color: black;
+    text-align: center;
+    padding: 12px 0;
+    border-radius: 12px;
+    text-decoration: none;
+    font-weight: bold;
+    transition: 0.3s;
+}
+
+#btnComprar:hover {
+    background: linear-gradient(135deg, #b8962e, #d4af37);
+    transform: scale(1.05);
+}
+
+#contadorCarrito {
+    position: absolute;
+    top: -8px;
+    right: -10px;
+    background: #d4af37;
+    color: black;
+    font-size: 13px;
+    font-weight: bold;
+    border-radius: 50%;
+    padding: 4px 7px;
+    min-width: 20px;
+    text-align: center;
+    display: none;
+}
+
+.btn-whatsapp {
+    display: block;
+    margin-top: 15px;
+    background: #25d366;
+    color: black;
+    text-align: center;
+    padding: 10px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+/* ========== BOTÓN WHATSAPP FIJO ========== */
+.whatsapp-fijo {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background: #25d366;
+    color: black;
+    padding: 15px 20px;
+    border-radius: 50px;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+/* ========== CONTACTO ========== */
+/* Título de sección de productos */
+.productos-titulo {
+    text-align: center;
+    font-size: 36px;
+    font-weight: bold;
+    color: #d4af37;
+    margin-top: 100px;
+    margin-bottom: 30px;
+}
+
+/* Centrar sección de contacto */
+.contacto {
+    background: #0b0b0b;
+    padding: 80px 20px;
+    text-align: center;
+    border-top: 2px solid rgba(212,175,55,0.4);
+}
+
+.contacto .redes {
+    display: flex;
+    justify-content: center;
+    margin-top: 10px;
+    gap: 20px;
+}
+
+/* Botón Cómo llegar */
+.btn-mapa {
+    display: inline-block;
+    margin-top: 10px;
+    background: linear-gradient(135deg, #d4af37, #b8962e);
+    padding: 10px 20px;
+    border-radius: 12px;
+    text-decoration: none;
+    color: black;
+    font-weight: bold;
+    transition: 0.3s;
+}
+
+.btn-mapa:hover {
+    background: linear-gradient(135deg, #b8962e, #d4af37);
+    transform: scale(1.05);
+}
+
+/* Tamaño de íconos de redes */
+.redes a img {
+    width: 24px;
+    height: 24px;
+    vertical-align: middle;
+    margin-right: 5px;
+}
+
+
+.contacto h2 {
+    color: #d4af37;
+    margin-bottom: 10px;
+}
+
+.redes a {
+    margin: 0 10px;
+    color: #d4af37;
+    text-decoration: none;
+    font-size: 20px;
+}
+section {
+    box-shadow: inset 0 20px 30px rgba(0,0,0,0.6);
+}
+
+.carrito-icono {
+    position: relative;
+    font-size: 24px;
+    cursor: pointer;
+    color: white;
+}
+
+#contadorCarrito {
+    position: absolute;
+    top: -8px;
+    right: -10px;
+    background: #d4af37;
+    color: black;
+    font-size: 13px;
+    font-weight: bold;
+    border-radius: 50%;
+    padding: 3px 7px;
+    min-width: 20px;
+    text-align: center;
+    display: none;
+}
+#cerrarCarrito:hover {
+    color: #fff;
+    transform: scale(1.2);
+    transition: 0.2s;
+}
+
+.ofertas-link {
+    color: #d4af37 !important; /* Dorado y fuerza sobre otros estilos */
+    font-weight: bold;
+}
+
+.ofertas-link::after {
+    background: #d4af37;
+    
+}
+
+
+
+</style>
+</head>
+
+<body>
+<div id="carrito">
+    <span id="cerrarCarrito" 
+      style="position:absolute; top:10px; right:15px; cursor:pointer; font-size:20px; color:#d4af37;">
+      ✖
+</span>
+
+
+  <h3>Tu Carrito</h3>
+  <ul id="lista-carrito"></ul>
+  <p id="total">Total: 0 Gs</p>
+  <a id="btnComprar" href="#" target="_blank" class="btn-add">Comprar por WhatsApp</a>
+</div>
+
+<nav>
+<div class="logo">
+  <img src="img/logoperfu.png" alt="Logo Ricas Fragancias" class="logo-img">
+  Ricas Fragancias
+</div>
+
+<div class="menu-btn" onclick="toggleMenu()">☰</div>
+<ul id="menu">
+<li><a href="#inicio">Inicio</a></li>
+<li><a href="#ofertas" class="ofertas-link">OFERTAS</a></li> 
+<li><a href="todos-productos.html">Productos</a></li>
+<li><a href="#nosotros">Nosotros</a></li>
+<li><a href="#contacto">Contacto</a></li>
+<li><a href="#ubicacion">Ubicación</a></li>
+<li>
+  <div class="carrito-icono" onclick="toggleCarrito()">
+      🛒
+      <span id="contadorCarrito">0</span>
+  </div>
+</li>
+</ul>
+</nav>
+
+<header class="hero" id="inicio">
+<div class="contenido-header">
+<h1>Perfumes Árabes Exclusivos</h1>
+<p>Lujo • Misterio • Elegancia</p>
+</div>
+</header>
+<section class="productos-titulo">
+    <h2>OFERTAS DE HOY</h2>
+</section>
+
+
+
+
+
+
+
+<section class="productos" id="productos">
+  <div class="card" data-nombre="Oud Royal" data-precio="50000" data-precio-original="62500" data-categoria="Hombre">
+    <div class="oferta">20% OFF</div>
+    <img src="img/asad lattafa 100ml.jpg" alt="Oud Royal">
+    <h3>Asad Lattafa</h3>
+    <p class="precio">
+      <span class="precio-antiguo">62.500 Gs</span>
+      <span class="precio-nuevo">50.000 Gs</span>
+    </p>
+    <button class="btn-add" onclick="agregar('Oud Royal',50000)">Añadir</button>
+    <button class="btn-add" onclick="abrirModal('Oud Royal','Aromas: Oud, Ámbar, Almizcle. Notas intensas y amaderadas, ideal para ocasiones elegantes.')">Descripción</button>
+</div>
+
+<div class="card" data-nombre="Golden Musk" data-precio="100000" data-precio-original="117650" data-categoria="Mujer">
+    <div class="oferta">15% OFF</div>
+    <img src="img/emaan lattafa 100ml.jpg" alt="Golden Musk">
+    <h3>Emaan Lattafa</h3>
+    <p class="precio">
+      <span class="precio-antiguo">117.650 Gs</span>
+      <span class="precio-nuevo">100.000 Gs</span>
+    </p>
+    <button class="btn-add" onclick="agregar('Golden Musk',100000)">Añadir</button>
+    <button class="btn-add" onclick="abrirModal('Golden Musk','Aromas: Almizcle dorado, flores blancas, notas cítricas. Perfume femenino, elegante y sofisticado.')">Descripción</button>
+</div>
+
+<div class="card" data-nombre="Amber Oud" data-precio="75000" data-precio-original="83333" data-categoria="Unisex">
+    <div class="oferta">10% OFF</div>
+    <img src="img/yara rosado lattafa.jpg" alt="Amber Oud">
+    <h3>Yara Lattafa</h3>
+    <p class="precio">
+      <span class="precio-antiguo">83.333 Gs</span>
+      <span class="precio-nuevo">75.000 Gs</span>
+    </p>
+    <button class="btn-add" onclick="agregar('Amber Oud',75000)">Añadir</button>
+    <button class="btn-add" onclick="abrirModal('Amber Oud','Aromas: Ámbar, Oud, notas amaderadas y dulces. Perfume unisex, cálido y envolvente.')">Descripción</button>
+</div>
+
+<div class="card" data-nombre="Royal Musk" data-precio="120000" data-precio-original="160000" data-categoria="Hombre">
+    <div class="oferta">25% OFF</div>
+    <img src="img/fakhar rose lattafa 100ml.jpg" alt="Royal Musk">
+    <h3>Fakhar Rose Lattafa</h3>
+    <p class="precio">
+      <span class="precio-antiguo">160.000 Gs</span>
+      <span class="precio-nuevo">120.000 Gs</span>
+    </p>
+    <button class="btn-add" onclick="agregar('Royal Musk',120000)">Añadir</button>
+    <button class="btn-add" onclick="abrirModal('Royal Musk','Aromas: Almizcle, notas amaderadas y especiadas. Perfume masculino intenso y sofisticado.')">Descripción</button>
+</div>
+
+</section>
+
+<!-- Botón Ver más perfumes -->
+<div style="text-align:center; margin-bottom:40px;">
+  <a href="todos-productos.html" class="btn-add" style="width:auto; padding:12px 30px;">
+    Ver más perfumes ➡️
+  </a>
+</div>
+
+
+<a class="whatsapp-fijo" href="https://wa.me/595000000000" target="_blank">
+  <i class="fab fa-whatsapp" style="font-size:28px;"></i>
+</a>
+
+
+
+<section class="contacto" id="nosotros">
+<h2>Sobre Nosotros</h2>
+<p style="max-width:800px; margin:auto; line-height:1.7;">
+En <b>Ricas Fragancias</b> nos especializamos en perfumes árabes originales, seleccionados por su
+calidad, intensidad y elegancia. Ofrecemos aromas exclusivos tanto para hombres como mujeres,
+con envíos a todo el país desde Paraguay.
+<br><br>
+Trabajamos con responsabilidad, atención personalizada y métodos de compra rápidos y seguros
+a través de WhatsApp.
+</p>
+</section>
+
+
+<section class="contacto" id="opinion">
+  <h2>Enviar Opinión</h2>
+  <form action="mailto:tucorreo@dominio.com" method="post" enctype="text/plain" style="max-width:500px; margin:auto; text-align:left;">
+    
+    <label for="nombre">Nombre:</label><br>
+    <input type="text" id="nombre" name="nombre" required
+           style="width:100%; padding:10px; margin:5px 0; border-radius:6px; border:1px solid #d4af37; background:#111; color:white;"><br>
+
+    <label for="mensaje-opinion">Comentario:</label><br>
+    <textarea id="mensaje-opinion" name="comentario" rows="4" required 
+              style="width:100%; padding:10px; margin:5px 0; border-radius:6px; border:1px solid #d4af37; background:#111; color:white;"></textarea><br>
+
+    <label>Calificación:</label><br>
+    <select name="estrellas" required style="padding:10px; margin:5px 0; border-radius:6px; border:1px solid #d4af37; background:#111; color:white;">
+      <option value="">Selecciona</option>
+      <option value="1">⭐</option>
+      <option value="2">⭐⭐</option>
+      <option value="3">⭐⭐⭐</option>
+      <option value="4">⭐⭐⭐⭐</option>
+      <option value="5">⭐⭐⭐⭐⭐</option>
+    </select><br>
+
+    <button type="button" onclick="enviarOpinion()" class="btn-add" style="margin-top:10px;">Enviar Opinión</button>
+  </form>
+</section>
+
+
+  
+
+<div id="mensaje-opinion-enviada" 
+     style="position:fixed; bottom:20px; right:20px; background:#d4af37; color:black; padding:12px 20px; border-radius:10px; display:none; font-weight:bold; z-index:4000;">
+    Opinión enviada ✅
+</div>
+<section class="contacto" id="ubicacion">
+  <h2>Cómo ubicarnos</h2>
+
+  <!-- Mapa embebido -->
+  <div style="margin: 20px auto; max-width: 800px;">
+    <iframe 
+      src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3650.000000!2d-57.000000!3d-25.000000!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x945da00000000000%3A0x0000000000000000!2sTu%20Ubicaci%C3%B3n!5e0!3m2!1ses-419!2spy!4v0000000000000" 
+      width="100%" 
+      height="300" 
+      style="border:0; border-radius:12px;" 
+      allowfullscreen="" 
+      loading="lazy">
+    </iframe>
+  </div>
+
+  <!-- Botón Cómo llegar centrado -->
+<div style="text-align:center; margin-top:15px;">
+  <a class="btn-mapa" href="https://www.google.com/maps/dir/?api=1&destination=-25.000000,-57.000000" target="_blank">
+    Cómo llegar 🗺️
+  </a>
+</div>
+<br>
+
+<section class="contacto" id="contacto">
+<h2>Contacto</h2>
+
+<p>📍 Paraguay</p>
+<p>📞 +595 000 000 000</p>
+
+<div class="redes">
+  <a href="https://instagram.com" target="_blank">
+    <img src="img/ins.jpeg" alt="Instagram">Instagram
+  </a>
+  <a href="https://facebook.com" target="_blank">
+    <img src="img/facebook.jpeg" alt="Facebook">Facebook
+  </a>
+</div>
+
+
+</section>
+
+
+<script>
+let total = 0;
+let mensaje = "";
+let cantidad = 0;
+
+function toggleMenu(){
+  document.getElementById("menu").classList.toggle("active");
+}
+
+function toggleCarrito(){
+  let c = document.getElementById("carrito");
+  c.style.display = c.style.display === "block" ? "none" : "block";
+}
+
+function agregar(nombre, precio) {
+    // Leer carrito existente del localStorage
+    let carrito = JSON.parse(localStorage.getItem("carrito")) || [];
+
+    // Agregar el nuevo producto
+    carrito.push({ nombre, precio });
+
+    // Guardar carrito actualizado en localStorage
+    localStorage.setItem("carrito", JSON.stringify(carrito));
+
+    // Actualizar total y lista visual
+    actualizarCarrito();
+
+    // Mostrar mensaje de añadido
+    const mensaje = document.getElementById("mensaje-agregado");
+    mensaje.style.display = "block";
+    // Ocultar mensaje después de 2 segundos
+    setTimeout(() => {
+        mensaje.style.display = "none";
+    }, 3000);
+}
+
+
+
+function actualizarCarrito() {
+    const lista = document.getElementById("lista-carrito");
+    lista.innerHTML = "";
+
+    const carrito = JSON.parse(localStorage.getItem("carrito")) || [];
+    let total = 0;
+
+    carrito.forEach((item, index) => {
+        const li = document.createElement("li");
+        li.innerHTML = `
+            <span>${item.nombre}</span>
+            <span>${item.precio} Gs</span>
+            <button onclick="eliminarDelCarrito(${index})" 
+                style="background:#d4af37; border:none; border-radius:5px; cursor:pointer; margin-left:5px; padding:2px 6px;">✖</button>
+        `;
+        lista.appendChild(li);
+        total += parseInt(item.precio);
+    });
+
+    document.getElementById("total").textContent = "Total: " + total + " Gs";
+
+    // Actualizar enlace de WhatsApp
+    let mensaje = carrito.map(p => `- ${p.nombre} (${p.precio} Gs)`).join('%0A');
+    document.getElementById("btnComprar").href =
+        `https://wa.me/595000000000?text=Hola quiero comprar:%0A${mensaje}%0ATotal: ${total} Gs`;
+
+    // Actualizar contador
+    const contador = document.getElementById("contadorCarrito");
+    contador.textContent = carrito.length;
+    contador.style.display = carrito.length > 0 ? "block" : "none";
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+    actualizarCarrito();
+});
+function eliminarDelCarrito(index) {
+    let carrito = JSON.parse(localStorage.getItem("carrito")) || [];
+    carrito.splice(index, 1); // Eliminar el producto por índice
+    localStorage.setItem("carrito", JSON.stringify(carrito));
+    actualizarCarrito();
+}
+
+
+
+
+function actualizarContador(){
+  const contador = document.getElementById("contadorCarrito");
+  contador.textContent = cantidad;
+  contador.style.display = cantidad > 0 ? "block" : "none";
+}
+
+function filtrarProductos() {
+  const busqueda = document.getElementById("buscar").value.toLowerCase();
+  const orden = document.getElementById("ordenPrecio").value;
+  const categoria = document.getElementById("categoria").value;
+
+  const productos = Array.from(document.querySelectorAll(".productos .card"));
+
+  let filtrados = productos.filter(card => {
+    const nombre = card.dataset.nombre.toLowerCase();
+    const cat = card.dataset.categoria;
+    return nombre.includes(busqueda) && (categoria === "" || categoria === cat);
+  });
+
+  // Ordenar por precio
+  filtrados.sort((a, b) => {
+    const precioA = parseInt(a.dataset.precio);
+    const precioB = parseInt(b.dataset.precio);
+    if (orden === "asc") return precioA - precioB;
+    if (orden === "desc") return precioB - precioA;
+    return 0;
+  });
+
+  const contenedor = document.querySelector(".productos");
+  contenedor.innerHTML = "";
+  filtrados.forEach(card => contenedor.appendChild(card));
+}
+function abrirModal(titulo, descripcion){
+  document.getElementById("modal-titulo").textContent = titulo;
+  document.getElementById("modal-descripcion").textContent = descripcion;
+  document.getElementById("modal").style.display = "flex";
+}
+
+function cerrarModal(){
+  document.getElementById("modal").style.display = "none";
+}
+document.getElementById("cerrarCarrito").addEventListener("click", function(){
+    document.getElementById("carrito").style.display = "none";
+});
+
+
+function enviarOpinion() {
+    const nombre = document.getElementById("nombre").value.trim();
+    const mensaje = document.getElementById("mensaje-opinion").value.trim();
+
+    if(nombre === "" || mensaje === "") {
+        alert("Por favor completa todos los campos.");
+        return;
+    }
+
+    // Aquí podrías enviar a un servidor si tuvieras backend, 
+    // pero para simular solo mostramos un mensaje
+    const aviso = document.getElementById("mensaje-opinion-enviada");
+    aviso.style.display = "block";
+
+    // Ocultar mensaje después de 3 segundos
+    setTimeout(() => {
+        aviso.style.display = "none";
+    }, 3000);
+
+    // Limpiar formulario
+    document.getElementById("nombre").value = "";
+    document.getElementById("mensaje-opinion").value = "";
+}
+
+</script>
+
+
+<div id="modal" style="display:none; position:fixed; inset:0; background: rgba(0,0,0,0.8); justify-content:center; align-items:center; z-index:3000;">
+  <div style="background:#111; color:white; padding:20px; border-radius:12px; max-width:500px; text-align:center; position:relative;">
+    <span style="position:absolute; top:10px; right:15px; cursor:pointer; font-size:20px;" onclick="cerrarModal()">✖</span>
+    <h3 id="modal-titulo"></h3>
+    <p id="modal-descripcion"></p>
+  </div>
+</div>
+
+<!-- Mensaje de producto añadido -->
+<div id="mensaje-agregado" 
+     style="position:fixed; bottom:20px; right:20px; background:#d4af37; color:black; padding:12px 20px; border-radius:10px; display:none; font-weight:bold; z-index:4000;">
+    Producto añadido al carrito ✅
+</div>
+
+</body>
+</html>

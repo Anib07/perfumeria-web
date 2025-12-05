@@ -1,0 +1,754 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Todos los perfumes - Ricas Fragancias</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link href="https://fonts.googleapis.com/css2?family=Amiri&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Amiri', serif;
+}
+
+body {
+    background: #000;
+    color: white;
+}
+
+/* ========== NAV ========== */
+nav {
+    width: 100%;
+    background: linear-gradient(90deg, #000, #0b0b0b, #000);
+    padding: 18px 60px;
+    position: fixed;
+    top: 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid rgba(212,175,55,0.4);
+    z-index: 1000;
+    backdrop-filter: blur(6px);
+}
+
+.logo {
+    font-size: 30px;
+    font-weight: bold;
+    color: #d4af37;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    display: flex;
+    align-items: center;
+    gap: 10px; /* espacio entre el logo y el texto */
+    transition: 0.3s; /* suaviza el cambio de color */
+}
+
+.logo-img {
+    width: 40px;  
+    height: 40px; 
+    object-fit: contain; 
+    transition: 0.3s; /* suaviza el efecto hover */
+}
+
+.logo:hover {
+    color: #ffd700; /* texto brillante dorado al pasar el mouse */
+}
+
+.logo:hover .logo-img {
+    filter: drop-shadow(0 0 8px #ffd700); /* resalta el logo con brillo dorado */
+    transform: scale(1.1); /* agranda un poquito el logo */
+}
+
+
+nav ul {
+    list-style: none;
+    display: flex;
+    gap: 35px;
+}
+
+nav a, nav button {
+    color: white;
+    text-decoration: none;
+    font-size: 17px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    position: relative;
+    padding-bottom: 5px;
+}
+
+nav a::after, nav button::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 0%;
+    height: 2px;
+    background: #d4af37;
+    transition: 0.3s;
+}
+
+nav a:hover::after, nav button:hover::after {
+    width: 100%;
+}
+
+
+.menu-btn {
+    display: none;
+    font-size: 28px;
+    color: white;
+    cursor: pointer;
+}
+
+@media (max-width: 768px) {
+    nav ul {
+        position: absolute;
+        top: 70px;
+        left: 0;
+        width: 100%;
+        background: #111;
+        flex-direction: column;
+        display: none;
+        padding: 15px 0;
+        text-align: center;
+    }
+    nav ul.active {
+        display: flex;
+    }
+    .menu-btn {
+        display: block;
+    }
+}
+
+/* ========== HERO ========== */
+.hero {
+    height: 90vh;
+    margin-bottom: 80px;
+    background-image: url("img/parafondo.jpg");
+    background-size: cover;
+    background-position: center;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.hero::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: rgba(0,0,0,0.7);
+    box-shadow: inset 0 0 180px black;
+}
+
+.contenido-header {
+    z-index: 2;
+    text-align: center;
+    color: #d4af37;
+    animation: fadeIn 2s ease;
+}
+
+.contenido-header h1 {
+    font-size: 60px;
+}
+
+.contenido-header p {
+    margin-top: 10px;
+    color: white;
+    font-size: 22px;
+}
+
+@keyframes fadeIn {
+    from {opacity: 0; transform: translateY(40px);}
+    to {opacity: 1; transform: translateY(0);}
+}
+
+/* ========== FILTROS ========== */
+.filtros {
+    margin: 120px 40px 30px;
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.filtros select, .filtros input {
+    padding: 10px 15px;
+    border-radius: 8px;
+    border: 2px solid #d4af37;
+    background: #111;
+    color: white;
+}
+
+/* ========== PRODUCTOS ========== */
+.productos {
+    padding: 100px 40px 120px;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px,1fr));
+    gap: 25px;
+}
+.card {
+    background: #111;
+    padding: 20px;
+    border-radius: 15px;
+    border: 2px solid #d4af37;
+    text-align: center;
+    transition: 0.3s;
+}
+.card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 0 25px #d4af37;
+}
+/* Imagenes de productos tamaño uniforme */
+.card img {
+    width: 100%;
+    height: 300px; /* altura fija */
+    object-fit: cover; /* que no se deforme */
+    border-radius: 10px;
+}
+
+/* Redes sociales con iconos */
+.redes a {
+    margin: 0 10px;
+    text-decoration: none;
+    font-size: 20px;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+}
+.btn-add {
+    background: linear-gradient(135deg, #d4af37, #b8962e);
+    border: none;
+    padding: 14px;
+    width: 100%;
+    border-radius: 12px;
+    margin-top: 15px;
+    cursor: pointer;
+    font-size: 17px;
+    font-weight: bold;
+    letter-spacing: 1px;
+    color: black;
+    transition: 0.3s;
+}
+
+.btn-add:hover {
+    background: linear-gradient(135deg, #b8962e, #d4af37);
+    transform: scale(1.05);
+}
+
+/* ========== CARRITO ========== */
+#carrito {
+    position: fixed;
+    top: 90px;
+    right: 20px;
+    background: #111;
+    padding: 20px;
+    border: 2px solid #d4af37;
+    width: 300px;
+    max-height: 70vh;
+    border-radius: 12px;
+    display: none;
+    z-index: 2000;
+    overflow-y: auto;
+    box-shadow: 0 0 20px #d4af37;
+}
+
+#carrito h3 {
+    text-align: center;
+    margin-bottom: 15px;
+    color: #d4af37;
+}
+
+#lista-carrito {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+#lista-carrito li {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+    padding: 8px;
+    background: #1a1a1a;
+    border-radius: 8px;
+    font-size: 16px;
+    color: white;
+}
+
+#total {
+    margin-top: 10px;
+    font-weight: bold;
+    font-size: 18px;
+    color: #d4af37;
+    text-align: center;
+}
+
+#btnComprar {
+    display: block;
+    margin: 15px auto 0;
+    background: linear-gradient(135deg, #d4af37, #b8962e);
+    color: black;
+    text-align: center;
+    padding: 12px 0;
+    border-radius: 12px;
+    text-decoration: none;
+    font-weight: bold;
+    transition: 0.3s;
+}
+
+#btnComprar:hover {
+    background: linear-gradient(135deg, #b8962e, #d4af37);
+    transform: scale(1.05);
+}
+
+#contadorCarrito {
+    position: absolute;
+    top: -8px;
+    right: -10px;
+    background: #d4af37;
+    color: black;
+    font-size: 13px;
+    font-weight: bold;
+    border-radius: 50%;
+    padding: 4px 7px;
+    min-width: 20px;
+    text-align: center;
+    display: none;
+}
+
+.btn-whatsapp {
+    display: block;
+    margin-top: 15px;
+    background: #25d366;
+    color: black;
+    text-align: center;
+    padding: 10px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+/* ========== BOTÓN WHATSAPP FIJO ========== */
+.whatsapp-fijo {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background: #25d366;
+    color: black;
+    padding: 15px 20px;
+    border-radius: 50px;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+/* ========== CONTACTO ========== */
+/* Título de sección de productos */
+.productos-titulo {
+    text-align: center;
+    font-size: 36px;
+    font-weight: bold;
+    color: #d4af37;
+    margin-top: 100px;
+    margin-bottom: 30px;
+}
+
+/* Centrar sección de contacto */
+.contacto {
+    background: #0b0b0b;
+    padding: 80px 20px;
+    text-align: center;
+    border-top: 2px solid rgba(212,175,55,0.4);
+}
+
+.contacto .redes {
+    display: flex;
+    justify-content: center;
+    margin-top: 10px;
+    gap: 20px;
+}
+
+/* Botón Cómo llegar */
+.btn-mapa {
+    display: inline-block;
+    margin-top: 10px;
+    background: linear-gradient(135deg, #d4af37, #b8962e);
+    padding: 10px 20px;
+    border-radius: 12px;
+    text-decoration: none;
+    color: black;
+    font-weight: bold;
+    transition: 0.3s;
+}
+
+.btn-mapa:hover {
+    background: linear-gradient(135deg, #b8962e, #d4af37);
+    transform: scale(1.05);
+}
+
+/* Tamaño de íconos de redes */
+.redes a img {
+    width: 24px;
+    height: 24px;
+    vertical-align: middle;
+    margin-right: 5px;
+}
+
+
+.contacto h2 {
+    color: #d4af37;
+    margin-bottom: 10px;
+}
+
+.redes a {
+    margin: 0 10px;
+    color: #d4af37;
+    text-decoration: none;
+    font-size: 20px;
+}
+section {
+    box-shadow: inset 0 20px 30px rgba(0,0,0,0.6);
+}
+.carrito-icono {
+    position: relative;
+    font-size: 24px;
+    cursor: pointer;
+    color: white;
+}
+
+#contadorCarrito {
+    position: absolute;
+    top: -8px;
+    right: -10px;
+    background: #d4af37;
+    color: black;
+    font-size: 13px;
+    font-weight: bold;
+    border-radius: 50%;
+    padding: 3px 7px;
+    min-width: 20px;
+    text-align: center;
+    display: none;
+}
+#cerrarCarrito:hover {
+    color: #fff;
+    transform: scale(1.2);
+    transition: 0.2s;
+    
+}
+
+.ofertas-link::after {
+    background: #d4af37; /* Subrayado dorado al pasar el mouse */
+}
+
+
+
+
+</style>
+</head>
+<body>
+<body>
+<div id="carrito">
+    <span id="cerrarCarrito" 
+      style="position:absolute; top:10px; right:15px; cursor:pointer; font-size:20px; color:#d4af37;">
+      ✖
+</span>
+
+
+  <h3>Tu Carrito</h3>
+  <ul id="lista-carrito"></ul>
+  <p id="total">Total: 0 Gs</p>
+  <a id="btnComprar" href="#" target="_blank" class="btn-add">Comprar por WhatsApp</a>
+</div>
+<!-- NAV idéntico -->
+<nav>
+  <div class="logo">
+  <img src="img/logoperfu.png" alt="Logo Ricas Fragancias" class="logo-img">
+  Ricas Fragancias
+</div>
+  <div class="menu-btn" onclick="toggleMenu()">☰</div>
+  <ul id="menu">
+   <li><a href="index.html">Inicio</a></li>
+   <li><a href="#ofertas" class="ofertas-link">OFERTAS</a></li> 
+<li><a href="todos-productos.html">Productos</a></li>
+<li><a href="index.html#nosotros">Nosotros</a></li>
+<li><a href="index.html#contacto">Contacto</a></li>
+<li><a href="index.html#ubicacion">Ubicación</a></li>
+  <li>
+  <div class="carrito-icono" onclick="toggleCarrito()">
+      🛒
+      <span id="contadorCarrito">0</span>
+  </div>
+</li>
+  </ul>
+</nav>
+<section class="productos-titulo">
+    <h2>Productos Disponibles</h2>
+</section>
+<section class="filtros">
+  <input type="text" id="buscar" placeholder="Buscar perfume..." onkeyup="filtrarProductos()">
+  <select id="ordenPrecio" onchange="filtrarProductos()">
+    <option value="">Ordenar por precio</option>
+    <option value="asc">Más barato primero</option>
+    <option value="desc">Más caro primero</option>
+  </select>
+
+  <select id="categoria" onchange="filtrarProductos()">
+    <option value="">Todos</option>
+    <option value="Hombre">Hombre</option>
+    <option value="Mujer">Mujer</option>
+    <option value="Unisex">Unisex</option>
+  </select>
+</section>
+
+<section class="productos" id="productos">
+  <div class="card" data-nombre="asad lattafa" data-precio="50000" data-categoria="Hombre">
+    <img src="img/asad lattafa 100ml.jpg" alt="Oud Royal">
+    <h3>asad lattafa</h3>
+    <p>50.000 Gs</p>
+    <button class="btn-add" onclick="agregar('Oud Royal',50000)">Añadir</button>
+    <button class="btn-add" onclick="abrirModal('Oud Royal','Aromas: Oud, Ámbar, Almizcle. Notas intensas y amaderadas, ideal para ocasiones elegantes.')">Descripción</button>
+  </div>
+
+  <div class="card" data-nombre="emaan lattafa Musk" data-precio="100000" data-categoria=" Hombre">
+    <img src="img/emaan lattafa 100ml.jpg" alt="Golden Musk">
+    <h3>emaan lattafa Musk</h3>
+    <p>100.000 Gs</p>
+    <button class="btn-add" onclick="agregar('Golden Musk',100000)">Añadir</button>
+    <button class="btn-add" onclick="abrirModal('Golden Musk','Aromas: Almizcle dorado, flores blancas, notas cítricas. Perfume femenino, elegante y sofisticado.')">Descripción</button>
+  </div>
+
+  <div class="card" data-nombre="fakhar rose lattafa Oud" data-precio="75000" data-categoria="Mujer">
+    <img src="img/fakhar rose lattafa 100ml.jpg" alt="Amber Oud">
+    <h3>fakhar rose lattafa Oud</h3>
+    <p>75.000 Gs</p>
+    <button class="btn-add" onclick="agregar('Amber Oud',75000)">Añadir</button>
+    <button class="btn-add" onclick="abrirModal('Amber Oud','Aromas: Ámbar, Oud, notas amaderadas y dulces. Perfume unisex, cálido y envolvente.')">Descripción</button>
+  </div>
+
+  <div class="card" data-nombre="yara rosado lattafa Musk" data-precio="120000" data-categoria="Mujer">
+    <img src="img/yara rosado lattafa.jpg" alt="Royal Musk">
+    <h3>yara rosado lattafa Musk</h3>
+    <p>120.000 Gs</p>
+    <button class="btn-add" onclick="agregar('Royal Musk',120000)">Añadir</button>
+    <button class="btn-add" onclick="abrirModal('Royal Musk','Aromas: Almizcle, notas amaderadas y especiadas. Perfume masculino intenso y sofisticado.')">Descripción</button>
+  </div>
+  <div class="card" data-nombre="sakeena lattafa" data-precio="50000" data-categoria="Mujer">
+    <img src="img/sakeena lattafa.jpg" alt="Oud Royal">
+    <h3>sakeena lattafa</h3>
+    <p>50.000 Gs</p>
+    <button class="btn-add" onclick="agregar('Oud Royal',50000)">Añadir</button>
+    <button class="btn-add" onclick="abrirModal('Oud Royal','Aromas: Oud, Ámbar, Almizcle. Notas intensas y amaderadas, ideal para ocasiones elegantes.')">Descripción</button>
+  </div>
+
+  <div class="card" data-nombre="sublime lattafa Musk" data-precio="100000" data-categoria="Unisex">
+    <img src="img/sublime lattafa 100ml.jpg" alt="Golden Musk">
+    <h3>sublime lattafa Musk</h3>
+    <p>100.000 Gs</p>
+    <button class="btn-add" onclick="agregar('Golden Musk',100000)">Añadir</button>
+    <button class="btn-add" onclick="abrirModal('Golden Musk','Aromas: Almizcle dorado, flores blancas, notas cítricas. Perfume femenino, elegante y sofisticado.')">Descripción</button>
+  </div>
+
+  <div class="card" data-nombre="asad zanzibar lattafa" data-precio="75000" data-categoria="Unisex">
+    <img src="img/asad zanzibar lattafa 100ml.jpg" alt="Amber Oud">
+    <h3>asad zanzibar lattafa</h3>
+    <p>75.000 Gs</p>
+    <button class="btn-add" onclick="agregar('Amber Oud',75000)">Añadir</button>
+    <button class="btn-add" onclick="abrirModal('Amber Oud','Aromas: Ámbar, Oud, notas amaderadas y dulces. Perfume unisex, cálido y envolvente.')">Descripción</button>
+  </div>
+
+  <div class="card" data-nombre="yara tous lattafa" data-precio="120000" data-categoria="Unisex">
+    <img src="img/yara tous lattafa 100ml.jpg" alt="Royal Musk">
+    <h3>yara tous lattafa</h3>
+    <p>120.000 Gs</p>
+    <button class="btn-add" onclick="agregar('Royal Musk',120000)">Añadir</button>
+    <button class="btn-add" onclick="abrirModal('Royal Musk','Aromas: Almizcle, notas amaderadas y especiadas. Perfume masculino intenso y sofisticado.')">Descripción</button>
+  </div>
+  <div class="card" data-nombre="philos pura" data-precio="50000" data-categoria="Hombre">
+    <img src="img/philos pura 100ml.jpg" alt="Oud Royal">
+    <h3>philos pura</h3>
+    <p>50.000 Gs</p>
+    <button class="btn-add" onclick="agregar('Oud Royal',50000)">Añadir</button>
+    <button class="btn-add" onclick="abrirModal('Oud Royal','Aromas: Oud, Ámbar, Almizcle. Notas intensas y amaderadas, ideal para ocasiones elegantes.')">Descripción</button>
+  </div>
+
+  
+</section>
+
+<a class="whatsapp-fijo" href="https://wa.me/595000000000" target="_blank">
+  <i class="fab fa-whatsapp" style="font-size:28px;"></i>
+</a>
+
+
+<section class="contacto" id="contacto">
+<h2>Contacto</h2>
+
+<p>📍 Paraguay</p>
+<p>📞 +595 000 000 000</p>
+
+<div class="redes">
+  <a href="https://instagram.com" target="_blank">
+    <img src="img/ins.jpeg" alt="Instagram">Instagram
+  </a>
+  <a href="https://facebook.com" target="_blank">
+    <img src="img/facebook.jpeg" alt="Facebook">Facebook
+  </a>
+</div>
+
+
+<script>
+let total = 0;
+let mensaje = "";
+let cantidad = 0;
+
+function toggleMenu(){
+  document.getElementById("menu").classList.toggle("active");
+}
+
+function toggleCarrito(){
+  let c = document.getElementById("carrito");
+  c.style.display = c.style.display === "block" ? "none" : "block";
+}
+function agregar(nombre, precio) {
+    // Leer carrito existente del localStorage
+    let carrito = JSON.parse(localStorage.getItem("carrito")) || [];
+
+    // Agregar el nuevo producto
+    carrito.push({ nombre, precio });
+
+    // Guardar carrito actualizado en localStorage
+    localStorage.setItem("carrito", JSON.stringify(carrito));
+
+    // Actualizar total y lista visual
+    actualizarCarrito();
+
+    // Mostrar mensaje de añadido
+    const mensaje = document.getElementById("mensaje-agregado");
+    mensaje.style.display = "block";
+    // Ocultar mensaje después de 2 segundos
+    setTimeout(() => {
+        mensaje.style.display = "none";
+    }, 3000);
+}
+
+
+
+function actualizarCarrito() {
+    const lista = document.getElementById("lista-carrito");
+    lista.innerHTML = "";
+
+    const carrito = JSON.parse(localStorage.getItem("carrito")) || [];
+    let total = 0;
+
+    carrito.forEach((item, index) => {
+        const li = document.createElement("li");
+        li.innerHTML = `
+            <span>${item.nombre}</span>
+            <span>${item.precio} Gs</span>
+            <button onclick="eliminarDelCarrito(${index})" 
+                style="background:#d4af37; border:none; border-radius:5px; cursor:pointer; margin-left:5px; padding:2px 6px;">✖</button>
+        `;
+        lista.appendChild(li);
+        total += parseInt(item.precio);
+    });
+
+    document.getElementById("total").textContent = "Total: " + total + " Gs";
+
+    // Actualizar enlace de WhatsApp
+    let mensaje = carrito.map(p => `- ${p.nombre} (${p.precio} Gs)`).join('%0A');
+    document.getElementById("btnComprar").href =
+        `https://wa.me/595000000000?text=Hola quiero comprar:%0A${mensaje}%0ATotal: ${total} Gs`;
+
+    // Actualizar contador
+    const contador = document.getElementById("contadorCarrito");
+    contador.textContent = carrito.length;
+    contador.style.display = carrito.length > 0 ? "block" : "none";
+}
+
+
+document.addEventListener("DOMContentLoaded", () => {
+    actualizarCarrito();
+});
+function eliminarDelCarrito(index) {
+    let carrito = JSON.parse(localStorage.getItem("carrito")) || [];
+    carrito.splice(index, 1); // Eliminar el producto por índice
+    localStorage.setItem("carrito", JSON.stringify(carrito));
+    actualizarCarrito();
+}
+
+
+function actualizarContador(){
+  const contador = document.getElementById("contadorCarrito");
+  contador.textContent = cantidad;
+  contador.style.display = cantidad > 0 ? "block" : "none";
+}
+
+// Guardar todos los productos originales al cargar
+const productosOriginales = Array.from(document.querySelectorAll(".productos .card"));
+
+function filtrarProductos() {
+  const busqueda = document.getElementById("buscar").value.toLowerCase();
+  const orden = document.getElementById("ordenPrecio").value;
+  const categoria = document.getElementById("categoria").value;
+
+  const contenedor = document.querySelector(".productos");
+  contenedor.innerHTML = ""; // Limpiar contenedor
+
+  let filtrados = productosOriginales.filter(card => {
+    const nombre = card.dataset.nombre.toLowerCase();
+    const cat = card.dataset.categoria;
+    return nombre.includes(busqueda) && (categoria === "" || categoria === cat);
+  });
+
+  // Ordenar por precio
+  filtrados.sort((a, b) => {
+    const precioA = parseInt(a.dataset.precio);
+    const precioB = parseInt(b.dataset.precio);
+    if (orden === "asc") return precioA - precioB;
+    if (orden === "desc") return precioB - precioA;
+    return 0;
+  });
+
+  if(filtrados.length === 0) {
+    contenedor.innerHTML = `<p style="color:#d4af37; text-align:center; width:100%;">No hay productos que coincidan con tu búsqueda.</p>`;
+  } else {
+    filtrados.forEach(card => contenedor.appendChild(card));
+  }
+}
+
+function abrirModal(titulo, descripcion){
+  document.getElementById("modal-titulo").textContent = titulo;
+  document.getElementById("modal-descripcion").textContent = descripcion;
+  document.getElementById("modal").style.display = "flex";
+}
+
+function cerrarModal(){
+  document.getElementById("modal").style.display = "none";
+}
+document.getElementById("cerrarCarrito").addEventListener("click", function(){
+    document.getElementById("carrito").style.display = "none";
+});
+
+</script>
+
+
+<div id="modal" style="display:none; position:fixed; inset:0; background: rgba(0,0,0,0.8); justify-content:center; align-items:center; z-index:3000;">
+  <div style="background:#111; color:white; padding:20px; border-radius:12px; max-width:500px; text-align:center; position:relative;">
+    <span style="position:absolute; top:10px; right:15px; cursor:pointer; font-size:20px;" onclick="cerrarModal()">✖</span>
+    <h3 id="modal-titulo"></h3>
+    <p id="modal-descripcion"></p>
+  </div>
+</div>
+
+<!-- Mensaje de producto añadido -->
+<div id="mensaje-agregado" 
+     style="position:fixed; bottom:20px; right:20px; background:#d4af37; color:black; padding:12px 20px; border-radius:10px; display:none; font-weight:bold; z-index:4000;">
+    Producto añadido al carrito ✅
+</div>
+
+</body>
+</html>
